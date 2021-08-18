@@ -1,6 +1,6 @@
 # Pred workshopem 
 
-- jste zapsani v tabulce abych vam vyrobil VPS na ktere to cele budem zkouset
+- jste zapsani v tabulce abych vam vyrobil VPS na ktere to cele budem zkouset odkaz v Teamsech ( Nalejvarny )
 - naklonujte si tohle repo
 - cca hodinu pred workshopem uz budou nastartovane VPSky zkuste se na ni pripojit pres `ssh root@<vase-user-name-z-tabulky>.encero.xyz`
 - mate naistalovany kubectl https://kubernetes.io/docs/tasks/tools/

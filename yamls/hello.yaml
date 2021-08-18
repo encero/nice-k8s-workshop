@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: hello-service
 spec:
-  replicas: 20
+  replicas: 1 
   selector:
     matchLabels:
       app: hello-service
