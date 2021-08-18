@@ -1,0 +1,23 @@
+#cloud-config
+write_files:
+- content: |
+          #!/bin/bash
+          curl -sfL https://get.k3s.io | sh -
+          echo
+          echo
+          echo "==========================="
+          echo "Finnish setup at your machine with"
+          echo
+          echo scp root@$(hostname --fqdn):/etc/rancher/k3s/k3s.yaml ./
+          echo sed -i -e "s/127.0.0.1/$(hostname --fqdn)/" k3s.yaml
+          echo 'export KUBECONFIG=$(pwd)/k3s.yaml'
+          
+  permissions: '0700'
+  path: /root/k3install
+- content: |{{- range .Keys}}
+          {{.}}
+{{- end}}
+  path: /root/.ssh/authorized_keys
+  permissions: '0600'
+  owner: root:root
+package_upgrade: true
