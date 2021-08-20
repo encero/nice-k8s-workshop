@@ -24,7 +24,7 @@ const sshFingerprint = "5c:48:95:fa:ec:f4:3c:76:78:f2:77:1b:ad:a5:7c:d4"
 const region = "fra1"
 const distribution = "ubuntu-21-04-x64"
 
-const size = "s-2vcpu-2gb-amd"
+const size = "s-2vcpu-4gb-amd"
 const dropletTag = "nice-workshop"
 const domain = "encero.xyz"
 
