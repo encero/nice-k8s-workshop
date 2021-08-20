@@ -23,7 +23,7 @@ k3s kubectl get pods --all-namespaces
 # get kube config
 ```sh
 scp root@encero.encero.xyz:/etc/rancher/k3s/k3s.yaml ./
-export KUBECONIG=$PWD/k3s.yaml
+export KUBECONFIG=$PWD/k3s.yaml
 ```
 
 # install kubectl localy
