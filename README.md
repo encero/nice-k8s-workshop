@@ -1,64 +1,32 @@
-# Pred workshopem 
-
-- jste zapsani v tabulce abych vam vyrobil VPS na ktere to cele budem zkouset odkaz v Teamsech ( Nalejvarny )
-- naklonujte si tohle repo
-- cca hodinu pred workshopem uz budou nastartovane VPSky zkuste se na ni pripojit pres `ssh root@<vase-user-name-z-tabulky>.encero.xyz`
-- mate naistalovany kubectl https://kubernetes.io/docs/tasks/tools/
-- nebo vam bezi docker image zmineny nize (over `kubectl version`)
+# Steps to run k3s cluster on own hw
 
 
-# install k3s
+master:
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
 
-```sh
-curl -sfL https://get.k3s.io | sh -
-```
+run on master, execute on agents
+echo "curl -sfL https://get.k3s.io | K3S_URL=https://$(hostname --fqdn):6443 K3S_TOKEN=$(cat /var/lib/rancher/k3s/server/node-token) sh -"
 
-# verify k3s is running
-```sh
-k3s kubectl get node --watch
-k3s kubectl get pods --all-namespaces
-```
+# install cilium, flannel is not behaving nicely for some reason
+https://docs.cilium.io/en/stable/gettingstarted/k3s/
 
+cilium install
 
-# get kube config
-```sh
-scp root@encero.encero.xyz:/etc/rancher/k3s/k3s.yaml ./
-export KUBECONFIG=$PWD/k3s.yaml
-```
+cilium status --wait
 
-# install kubectl localy
-https://kubernetes.io/docs/tasks/tools/
+#install cert manager
 
-# OR use docker
-```sh
-docker build -t kube .
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
 
-docker run --rm -it -v $(pwd):/workshop kube
-# or
-./kube.sh
-```
+kubectl apply -f yamls/cert-manger.yaml
 
-# hello app
-```sh
+# deploy hello app, service and ingress
+
 kubectl apply -f yamls/hello.yaml
 
-kubectl port-forward <pod-name> 8080:8080
-kubectl logs -f <pod-name>
-```
+kubectl get pod --watch
 
-# hello app with ingress
-```sh
-kubectl apply -f yamls/hello-ingress.yaml
-```
+# deploy wordpress
 
-# install cert manager
+kubectl apply -f yamls/wordpress-deployment.yaml -f yamls/mysql-deployment.yaml
 
-```sh
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
-```
-
-# hello app with TLS
-
-```sh
-kubectl apply -f yamls/hello-ingress-tls.yaml
-```
